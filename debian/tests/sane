@@ -1,0 +1,8 @@
+#!/bin/sh
+
+set -e
+
+echo "Building"
+gcc -Wall -o "${AUTOPKGTEST_TMP}/tests_sane" subprojects/libinsane/tests/tests_sane.c subprojects/libinsane/tests/main.c -lcunit -linsane
+echo "Running"
+${AUTOPKGTEST_TMP}/tests_sane

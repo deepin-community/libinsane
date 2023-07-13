@@ -1,0 +1,5 @@
+usr/include/*/*
+usr/lib/*/*.so
+usr/lib/*/pkgconfig/*
+usr/share/vala/vapi/libinsane*
+usr/share/gir-1.0/*.gir

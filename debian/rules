@@ -1,4 +1,11 @@
 #!/usr/bin/make -f
+export DH_VERBOSE = 1
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+export PREFIX=/usr
 
 %:
-	dh $@
+	dh $@ --with gir --buildsystem=meson+ninja
+
+override_dh_girepository:
+	@echo 'blhc: ignore-line-regexp: \s+gcc -Wno-implicit-function-declaration -shared -fPIC -o debian/gir.*'
+	dh_girepository

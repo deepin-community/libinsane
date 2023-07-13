@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -e
+
+test_name=$(basename $0 | tr '-' '_')
+echo "Building"
+gcc -Wall -o "${AUTOPKGTEST_TMP}/tests_${test_name}" "subprojects/libinsane/tests/tests_${test_name}.c" subprojects/libinsane/tests/main.c -lcunit -linsane
+echo "Running"
+valgrind --trace-children=yes --leak-check=full --error-exitcode=10 "${AUTOPKGTEST_TMP}/tests_${test_name}"

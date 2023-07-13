@@ -1,0 +1,2 @@
+usr/lib/*/libinsane.so.*
+usr/lib/*/libinsane_gobject.so.*

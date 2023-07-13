@@ -1,0 +1,10 @@
+Document: libinsane
+Title: Debian libinsane Manual
+Author: Jerome Flesch
+Abstract: This manual describes what libinsane is
+ and how it can be used.
+Section: Programming/C
+
+Format: HTML
+Index: /usr/share/doc/libinsane-dev/index.html
+Files: /usr/share/doc/libinsane-dev/*.html

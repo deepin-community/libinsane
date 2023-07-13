@@ -1,0 +1,92 @@
+/*!
+
+\page dev_rules Rules for contributions
+
+### Changes must come with tests
+
+Any change in the code should go with corresponding changes in automated tests.
+Don't hesitate to add tests.
+
+### Tests must never be broken
+
+#### On GNU/Linux Debian
+
+```
+apt install \
+    clang-tidy-7 \
+    valgrind \
+    libcunit1-ncurses-dev
+```
+
+Then just run:
+
+- Build with -Wall -Werror -Wunused: `make`
+- Static analysis: `make check`
+- Unit tests: `make test`
+- Documentation generation: `make doc`
+
+
+#### Microsoft Windows
+
+On Windows, there is no automated tests for WIA2 or TWAIN support (there is no
+test backend). But it's still worth running `make test` to test all the
+workarounds and normalizers.
+
+`make check` and `make doc` may or may not work on Windows.
+
+
+#### [CI](https://gitlab.gnome.org/World/OpenPaperwork/libinsane/pipelines) is always right
+
+Tests must all pass. The Continuous Integration is the reference.
+If some tests pass on your computer but not in Continous Integration, then CI
+is right and your changes won't be accepted.
+
+
+CI works mainly with GNU/Linux. After each commit, CI will build and test
+Libinsane on both GNU/Linux and Windows. It will also build the documentation,
+run static analysis.
+
+CI builds everything with:
+
+- Debian GNU/Linux stable.
+- Linux version: GCC (32 and 64bits builds).
+- Windows version: Mingw32 (32bits build only).
+- `-Wall -Werror` (see `make` / `make build`).
+
+Therefore:
+
+1. Libinsane must always be buildable without warnings on GNU/Linux (even if
+  your changes target Windows ; with `-Wall -Werror`). Documentation must be
+  buildable as well.
+2. All normalizers and workarounds must build on GNU/Linux. Only direct API
+  wrappers may not be buildable on GNU/Linux (for instance the wrappers for
+  WIA or TWAIN APIs).
+3. Libinsane tests must all always pass on GNU/Linux (except for non-Linux
+  base APIs). All normalizers and workarounds must have tests working on
+  GNU/Linux, even if they are eventually designed to fix Windows issues.
+
+
+#### Code style convention
+
+For C code: When coding on LibInsane, please try to stick to
+[Linux coding style](https://www.kernel.org/doc/html/v4.15/process/coding-style.html).
+There is only one exception, line lengths. In Libinsane, line lengths longer
+than 80 characters but shorter than 100 characters are tolerated.
+
+For Python examples: Please follow the
+[PEP8](https://www.python.org/dev/peps/pep-0008/).
+
+If you want to fix style issues, please make dedicated commits.
+
+
+### Maintaining your contributions
+
+Please take care of either maintaining your contributions (or find someone
+else to do the job), or document it well enough so others can maintain it.
+Contributions unmaintained for too long and poorly documented will be removed.
+
+It would be appreciated if you could leave a way to contact you in case bugs
+are reported. The most straightforward way is simply to put your email address
+in your Git commits.
+
+*/

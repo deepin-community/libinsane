@@ -1,5 +1,71 @@
-template-repository (1.0-1) unstable; urgency=medium
+libinsane (1.0.9-2) unstable; urgency=medium
 
-  * Initial release
+  * debian/rules: explicitly use meson+ninja build system (remove now
+    unnecessary overrides)
 
- -- Tsic404 <liuheng@deepin.org>  Sat, 28 Jan 2023 13:46:49 +0800
+ -- Thomas Perret <thomas.perret@phyx.fr>  Tue, 19 Jan 2021 19:57:11 +0100
+
+libinsane (1.0.9-1) unstable; urgency=medium
+
+  * New upstream version 1.0.9
+  * Add missing tests for autopkgtests
+  * debian/control: Bump Standards-Version (no changes needed)
+
+ -- Thomas Perret <thomas.perret@phyx.fr>  Wed, 06 Jan 2021 15:48:09 +0100
+
+libinsane (1.0.8-1) unstable; urgency=medium
+
+  * New upstream version 1.0.8
+
+ -- Thomas Perret <thomas.perret@phyx.fr>  Sat, 10 Oct 2020 00:37:20 +0200
+
+libinsane (1.0.7-1) unstable; urgency=medium
+
+  * New upstream version 1.0.7
+  * Add symbols from 1.0.7
+  * debian/control: Bump debhelper compat to 13
+  * debian/rules: drop dh_missing override
+  * Ignore test build of dh_girepository for blhc checks
+
+ -- Thomas Perret <thomas.perret@phyx.fr>  Thu, 03 Sep 2020 19:08:10 +0200
+
+libinsane (1.0.4-1) unstable; urgency=medium
+
+  * New upstream version 1.0.4
+  * debian/patches: Drop patches applied upstream
+  * debian/symbols: Add new symbols from new upstream version 1.0.4
+  * debian/rules: Use same warnlevel as upstream
+  * debian/control: Bump Standards-Version to 4.5.0 (no changes needed)
+
+ -- Thomas Perret <thomas.perret@phyx.fr>  Tue, 17 Mar 2020 00:59:59 +0100
+
+libinsane (1.0.3-1) unstable; urgency=medium
+
+  * New upstream version 1.0.3
+  * debian/patches: cheery-pick upstream commit to fix Debian build
+
+ -- Thomas Perret <thomas.perret@phyx.fr>  Mon, 23 Dec 2019 15:16:10 +0100
+
+libinsane (1.0.2-2) unstable; urgency=medium
+
+  * debian/rules: Use meson buildsystem directly instead of included Makefile
+  * debian/control: Enable unit tests at build time
+
+ -- Thomas Perret <thomas.perret@phyx.fr>  Wed, 11 Dec 2019 22:16:42 +0100
+
+libinsane (1.0.2-1) unstable; urgency=medium
+
+  * New upstream version 1.0.2
+  * debian:
+    - Add Salsa CI jobs
+    - Add symbol from 1.0.2
+    - Bump Standards-Version to 4.4.1 (no changes needed)
+    - Add Multi-Arch: foreign to doc package
+
+ -- Thomas Perret <thomas.perret@phyx.fr>  Tue, 26 Nov 2019 13:46:24 +0100
+
+libinsane (1.0.1-1) unstable; urgency=medium
+
+  * Initial release (Closes: #940962)
+
+ -- Thomas Perret <thomas.perret@phyx.fr>  Mon, 26 Aug 2019 17:53:03 +0200

@@ -1,15 +1,55 @@
-Source: template-repository
-Section: unknown
+Source: libinsane
 Priority: optional
-Maintainer: Tsic404 <liuheng@deepin.org>
-Build-Depends: debhelper (>= 11)
-Standards-Version: 4.1.3
-Homepage: https://github.com/deepin-community/template-repository
-#Vcs-Browser: https://salsa.debian.org/debian/deepin-community-template-repository
-#Vcs-Git: https://salsa.debian.org/debian/deepin-community-template-repository.git
+Maintainer: Thomas Perret <thomas.perret@phyx.fr>
+Build-Depends: debhelper-compat (= 13), meson, libsane-dev, libgirepository1.0-dev, gobject-introspection, python3-gi, valac, gtk-doc-tools, libcunit1-dev
+Standards-Version: 4.5.1
+Section: libs
+Homepage: https://gitlab.gnome.org/World/OpenPaperwork/libinsane
+Vcs-Browser: https://salsa.debian.org/openpaperwork-team/libinsane
+Vcs-Git: https://salsa.debian.org/openpaperwork-team/libinsane.git
+Rules-Requires-Root: no
 
-Package: template-repository
+Package: libinsane-dev
+Section: libdevel
 Architecture: any
+Multi-Arch: same
+Depends: libinsane1 (= ${binary:Version}),
+         gir1.2-libinsane-1.0 (= ${binary:Version}),
+         ${misc:Depends}
+Description: Library to access scanner - development files
+ A cross-platform, cross-programming languages, cross scanner library
+ that takes care of all the quirks of scanners.
+ .
+ This package installs development headers.
+
+Package: libinsane1
+Architecture: any
+Multi-Arch: same
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Description: Library to access scanner
+ A cross-platform, cross-programming languages, cross scanner library
+ that takes care of all the quirks of scanners.
+ .
+ This package installs library.
+
+Package: gir1.2-libinsane-1.0
+Section: introspection
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${gir:Depends}, ${misc:Depends}
+Description: Library to access scanner - GObject bindings
+ A cross-platform, cross-programming languages, cross scanner library
+ that takes care of all the quirks of scanners.
+ .
+ This package contains the GObject bindings.
+
+Package: libinsane-doc
+Section: doc
+Architecture: all
+Multi-Arch: foreign
+Depends: ${misc:Depends}
+Description: Library to access scanner - documentation
+ A cross-platform, cross-programming languages, cross scanner library
+ that takes care of all the quirks of scanners.
+ .
+ This package contains the documentation.
