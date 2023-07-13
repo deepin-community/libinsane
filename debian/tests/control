@@ -1,0 +1,11 @@
+Test-Command: python3 /usr/share/doc/gir1.2-libinsane-1.0/examples/list_devices.py
+Depends: @, python3, python3-gi
+Restrictions: superficial
+Features: test-name=gi
+
+Tests: sane
+Depends: @, build-essential, libcunit1-dev
+
+Tests: multiplexer, normalizer-all-opts-on-all-sources, normalizer-bmp2raw, normalizer-clean-dev-descs, normalizer-min-one-source, normalizer-opt-aliases, normalizer-raw24, normalizer-resolution, normalizer-safe-defaults, normalizer-source-names, normalizer-source-nodes, normalizer-source-types, workaround-cache, workaround-check-capabilities, workaround-dedicated-thread, workaround-one-page-flatbed, workaround-opt-names, workaround-opt-values workaround-dedicated-process workaround-dedicated-process-pack workaround-lamp
+Depends: @, build-essential, libcunit1-dev, valgrind
+Restrictions: allow-stderr

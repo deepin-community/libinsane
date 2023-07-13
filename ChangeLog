@@ -1,0 +1,147 @@
+2021/01/01 - 1.0.9:
+- Fix: dedicated_process: Don't hang when shutting down
+  (ea2e964392c9aa5d09465d71fc059d8689c311cb)
+- dedicated_process: Reduce the trace level from the child process's stderr
+  from warning to info
+
+2020/10/09 - 1.0.8:
+- workaround 'dedicated_process': Fix crash on s390x architectures (thanks to
+  Elliott Sales de Andrade)
+- Sane + normalizer 'min_one_source' + normalizer 'all_opts_on_all_sources':
+  Fix crash with scanner have no option 'source':
+  'min_one_source' creates a fake item, and this fake item must not return
+  any option when `get_options()` is called. Otherwise
+  'all_opts_on_all_sources' crashes.
+- workaround 'dedicated_process': Fix reading from the stderr output of the
+  worker process.
+
+2020/09/01 - 1.0.7:
+- workaround 'dedicated_process': fix crash on 32bits systems.
+
+2020/08/31 - 1.0.6:
+- workaround 'dedicated_process': work around a GCC >=10 bug
+
+2020/08/30 - 1.0.5:
+- Sane: Implements new workaround: dedicated_process: run all the scanner
+  operations in a dedicated process. Avoid issues with Sane backends
+  crashing, corrupting the memory or closing file descriptors just for fun.
+- Sane: disable assert when receiving the code SANE_STATUS_CANCELLED
+  unexpectidly.
+- Workaround/opt_values: Add support for Sane + Samsung C48x
+- Workaround/opt_values: Add support for Sane + Brother ADS-2100e
+
+2020/03/13 - 1.0.4:
+- TWAIN + WIA2: Add support for grayscale ("Gray") and black&white ("LineArt")
+  scans.
+- Make sure "LineArt" is always capitalized the same way everywhere.
+- New workaround 'lamp': Make sure the lamp is turned off at the end of scan
+  (Sane + Canon Lide 30).
+- Safe_defaults: Fix value of 'page-height' to ensure we get the biggest scan
+  area possible by default (Sane + Fujitsu scanners).
+- Build has been made reproducible (thanks to Thomas Perret)
+
+2019/12/20 - 1.0.3:
+- Various documentation improvements (many thanks to Vasilii Blazhnov
+  questions)
+- Sane: Fix: When getting number lists (for instance the possible resolutions),
+  do not drop the last value.
+- Safebet: Fix support of Canon Lide 30 (driver Sane plustek ; and possibly
+  other scanners with a similar problem): Reorder the workaround/normalizers
+  to make sure the Libinsane does not switch the option 'source' too many
+  times. Otherwise the (buggy) driver ends up using the wrong source, with a
+  wrong scan area.
+- WIA2: Fix: Canon i-SENSYS MF3010: IStream.seek() can be called with argument
+  'plibNewPosition' set to NULL.
+- WIA2: Fix crashes caused by drivers that keeps using the IStream after
+  releasing it (implies a small memory leak at each scanned page ... :/).
+- WIA2: Fix: When an invalid device ID is passed as argument of
+  impl->get_device(), it now returns INVALID_VALUE instead of UNKNOWN_ERROR.
+- WIA2: Fix: When requesting the children of a child item, return an empty list
+  instead of an error (like other implementations)
+- WIA2: Handle correctly some other error codes that may be returned by the
+  driver.
+- Sane: Fix support of Black&White output (mode=Lineart).
+- All APIs: Fix impl->base_name (previously, multiplexer always set it to
+  NULL).
+- Fix compilation as a 64bits library on Windows.
+
+
+2019/10/14 - 1.0.2:
+- Libinsane/gobject: Added mising flag Libinsane.CAPABILITY_INACTIVE.
+
+- Sane: when the application expect one page, do not request a second one
+  (fix unittests timeout).
+
+- WIA2: Use the option 'dev_name' to figure out the manufacturer name and the
+  device name. It is the only reliable option.
+- WIA2: HP Photosmart C4200, Epson Perfection V30/V300:
+  When getting the scanned image, allow calls to
+  `seek(SEEK_SET, current_position)`.
+  https://openpaper.work/scannerdb/report/280/
+  https://openpaper.work/scannerdb/report/350/
+- WIA2: Ignore sources that are not explicitely a flatbed or an ADF
+  (for instance 0000\\Root\\Auto: It is simply not supported by Libinsane).
+
+- TWAIN: Fujitsu fi-6130 / fi-6130dj:
+  Keep reading Windows message queue while waiting for the DSM callback
+  to be called with the value 'ready'. If we don't, the DSM callback never gets
+  called.
+
+- normalizers/opt_aliases: Fix: When using option aliases 'tl-x', 'tl-y',
+  'br-x' and 'br-y', with WIA2, if the lowest values for 'xpos', 'ypos',
+  'xextent' and 'yextent' don't have (0, 0) as minimum values, inaccurate
+  values were set in WIA2 frame options.
+  https://openpaper.work/fr/scanner_db/report/335/
+- workarounds/cache: Fix: do not drop the item type (root, adf, flatbed, etc).
+- normalizers/resolution: If the driver does not specify any constraint
+  for the option 'resolution', put one default constraint.
+
+- normalizers/safe_defaults: Sane + Fujitsu fi-6130dj:
+  Cannot set the option 'page-height' to the maximum: Scanner rejects it.
+  Option must be set to slightly less than the maximum.
+  https://openpaper.work/fr/scanner_db/report/392/
+- normalizers/safe_default: Sane + Epson Perfection 1250:
+  If the default value for an option is out of the range specified by the
+  option constraint, do not change it.
+  https://openpaper.work/fr/scanner_db/report/328/
+- workaround/opt_names: Sane + Canon Pixma MX520:
+  Take into account that somes backend provide both an option 'resolution'
+  and 'scan-resolution'. In that case, do not generate an option 'resolution'
+  that would be an alias for 'scan-resolution', just keep 'resolution' as is.
+- normalizers/source_names: Sane + Canon CanoScan Lide 30:
+  Normalize the weird source names specified by the plustek driver.
+  https://openpaper.work/fr/scanner_db/report/298/
+- Sane + Canon Lide 220:
+  * https://openpaper.work/fr/scanner_db/report/279/
+  * workarounds/check_capabilty: Some options are marked as unreadable
+    (INACTIVE) but may still be writable (for instance the option 'source').
+  * normalizers/source_nodes: If the option 'source' is marked inactive, still
+    try to set it, but do not return an error if setting it fails.
+
+2019/08/18 - 1.0.1:
+- Sane: make sure sane_cancel() is called at the end of all scans (required
+  by some drivers)
+- Sane: Fix memory leak when opening an invalid device. (thanks to
+  Elliott Sales de Andrade)
+- WIA/Twain: Fix reading bits-per-pixel from BMP header on big-endian CPU
+  (thanks to Elliott Sales de Andrade)
+
+2019/05/08 - 1.0:
+- TWAIN: Add support for frame options (tl-x, tl-y, br-x, br-y)
+- Sane: Fix: 'net' backend: when we get SANE_INFO_RELOAD_OPTIONS, we must call
+  we must first call sane_get_option_descriptor() before sane_control_option()
+  even if we just want to use sane_control_option() to get the number of
+  options.
+- normalizer 'min_one_source': do not use the type of the root item on the
+  child, it's not a good value and prevents 'one_page_flatbed' from working
+  correctly.
+- Documentation updated, completed and clarified
+- Linux: .so files now include the version number (thanks to Eliott Sales de
+  Andrade)
+- Fix various CI issues
+- (unchanged) Known limitation: Only support scan of color images on Windows (24bits)
+
+2019/03/10 - 0.9:
+- First release: Test preview.
+- Support of Sane, WIA2 and TWAIN.
+- Known limitation: Only support scan of color images on Windows (24bits)
